@@ -9,3 +9,20 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias ConnectDance.Repo
+alias ConnectDance.DanceEvents.EventType
+
+event_types = [
+  "Workshop",
+  "Festival",
+  "Party",
+  "Class",
+  "WSDC Festival"
+]
+
+for name <- event_types do
+  %EventType{name: name}
+  |> EventType.changeset(%{})
+  |> Repo.insert!(on_conflict: :nothing)
+end
