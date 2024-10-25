@@ -11,6 +11,9 @@ config :connect_dance,
   ecto_repos: [ConnectDance.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :connect_dance, ConnectDance.Repo,
+  types: ConnectDance.PostgresTypes
+
 # Configures the endpoint
 config :connect_dance, ConnectDanceWeb.Endpoint,
   url: [host: "localhost"],
