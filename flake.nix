@@ -5,17 +5,12 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default";
-    process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
-    services-flake.url = "github:juspay/services-flake";
   };
 
   outputs =
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import inputs.systems;
-      imports = [
-        inputs.process-compose-flake.flakeModule
-      ];
       perSystem =
         {
           config,
@@ -34,26 +29,6 @@
           hex = pkgs.beam.packages.${erlangVersion}.hex;
         in
         {
-          process-compose."connect-dance-dev" =
-            { config, ... }:
-            {
-              imports = [
-                inputs.services-flake.processComposeModules.default
-              ];
-              services.postgres."pg1" = {
-                enable = true;
-                dataDir = "./.dev-data";
-                package = pkgs.postgresql_16;
-                extensions = extensions: [
-                  extensions.postgis
-                ];
-                initialDatabases = [ { name = "connect_dance_dev"; } ];
-                initialScript.before = ''
-                  CREATE EXTENSION IF NOT EXISTS postgis;
-                  CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres' SUPERUSER;
-                '';
-              };
-            };
           devShells = {
             default = pkgs.mkShell {
               packages = [
