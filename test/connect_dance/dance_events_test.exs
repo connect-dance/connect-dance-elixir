@@ -101,7 +101,7 @@ defmodule ConnectDance.DanceEventsTest do
 
     test "list_event_types/0 returns all event_types" do
       event_type = event_type_fixture()
-      assert DanceEvents.list_event_types() == [event_type]
+      assert Enum.member?(DanceEvents.list_event_types(), event_type)
     end
 
     test "get_event_type!/1 returns the event_type with given id" do

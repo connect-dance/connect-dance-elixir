@@ -1,4 +1,4 @@
-defmodule ConnectDanceWeb.EventJSON do
+defmodule ConnectDanceWeb.Api.V1.EventJSON do
   alias ConnectDance.DanceEvents.Event
 
   @doc """

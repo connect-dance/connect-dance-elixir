@@ -1,4 +1,4 @@
-defmodule ConnectDanceWeb.EventController do
+defmodule ConnectDanceWeb.Api.V1.EventController do
   use ConnectDanceWeb, :controller
 
   alias ConnectDance.DanceEvents
@@ -15,7 +15,7 @@ defmodule ConnectDanceWeb.EventController do
     with {:ok, %Event{} = event} <- DanceEvents.create_event(event_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/events/#{event}")
+      |> put_resp_header("location", ~p"/api/v1/events/#{event}")
       |> render(:show, event: event)
     end
   end

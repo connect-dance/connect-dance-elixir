@@ -14,10 +14,12 @@ defmodule ConnectDanceWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ConnectDanceWeb do
+  scope "/api", ConnectDanceWeb, as: :api do
     pipe_through :api
 
-    resources "/events", EventController, except: [:new, :edit]
+    scope "/v1", Api.V1, as: :v1 do
+      resources "/events", EventController, except: [:new, :edit]
+    end
   end
 
   scope "/", ConnectDanceWeb do

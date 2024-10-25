@@ -36,7 +36,7 @@ defmodule ConnectDanceWeb.EventControllerTest do
 
   describe "index" do
     test "lists all events", %{conn: conn} do
-      conn = get(conn, ~p"/api/events")
+      conn = get(conn, ~p"/api/v1/events")
       assert json_response(conn, 200)["data"] == []
     end
   end
@@ -46,10 +46,10 @@ defmodule ConnectDanceWeb.EventControllerTest do
       event_type = event_type_fixture()
       create_attrs = Map.put(@create_attrs, :event_type_id, event_type.id)
 
-      conn = post(conn, ~p"/api/events", event: create_attrs)
+      conn = post(conn, ~p"/api/v1/events", event: create_attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, ~p"/api/events/#{id}")
+      conn = get(conn, ~p"/api/v1/events/#{id}")
 
       assert %{
                "id" => ^id,
@@ -63,7 +63,7 @@ defmodule ConnectDanceWeb.EventControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, ~p"/api/events", event: @invalid_attrs)
+      conn = post(conn, ~p"/api/v1/events", event: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -72,10 +72,10 @@ defmodule ConnectDanceWeb.EventControllerTest do
     setup [:create_event]
 
     test "renders event when data is valid", %{conn: conn, event: %Event{id: id} = event} do
-      conn = put(conn, ~p"/api/events/#{event}", event: @update_attrs)
+      conn = put(conn, ~p"/api/v1/events/#{event}", event: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, ~p"/api/events/#{id}")
+      conn = get(conn, ~p"/api/v1/events/#{id}")
 
       assert %{
                "id" => ^id,
@@ -89,7 +89,7 @@ defmodule ConnectDanceWeb.EventControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, event: event} do
-      conn = put(conn, ~p"/api/events/#{event}", event: @invalid_attrs)
+      conn = put(conn, ~p"/api/v1/events/#{event}", event: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -98,11 +98,11 @@ defmodule ConnectDanceWeb.EventControllerTest do
     setup [:create_event]
 
     test "deletes chosen event", %{conn: conn, event: event} do
-      conn = delete(conn, ~p"/api/events/#{event}")
+      conn = delete(conn, ~p"/api/v1/events/#{event}")
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, ~p"/api/events/#{event}")
+        get(conn, ~p"/api/v1/events/#{event}")
       end
     end
   end
