@@ -12,6 +12,7 @@ config :connect_dance,
   generators: [timestamp_type: :utc_datetime]
 
 config :connect_dance, ConnectDance.Repo,
+  ssl: [cacerts: :public_key.cacerts_get()],
   types: ConnectDance.PostgresTypes
 
 # Configures the endpoint
